@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Card from "./card";
 
-let x = 3;
+let x = 2;
 let y = 2;
 
 class Main extends Component {
@@ -19,7 +19,7 @@ class Main extends Component {
       nbrFlipped: 0,
       flipped: [],
     };
-    this.nbrPairs = 0;
+    this.nbrPairs = 2;
     this.cards = [];
     this.currentFlipped = [];
     this.pairs = [];
