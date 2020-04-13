@@ -56,7 +56,7 @@ class Main extends Component {
           spacing={this.state.gameSize.spacing}
           handleCardFlip={this.handleCardFlip}
           isFlipped={this.state.isFlipped}
-          // img={}
+          img={this.pairs[cardItem]}
         />
       );
     }

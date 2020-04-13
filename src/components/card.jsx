@@ -17,11 +17,12 @@ class Card extends Component {
           <div className="flip-card-front">
             <b className="question-mark">?</b>
           </div>
-          <div className="flip-card-back">
-            <h1>John Doe</h1>
-            <p>Architect & Engineer</p>
-            <p>We love that guy</p>
-          </div>
+          <div
+            className="flip-card-back"
+            style={{
+              backgroundImage: `url('https://picsum.photos/${this.props.width}/${this.props.height}?random=${this.props.img}')`,
+            }}
+          ></div>
         </div>
       </div>
     );
