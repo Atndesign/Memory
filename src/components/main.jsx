@@ -19,9 +19,9 @@ class Main extends Component {
       nbrPairs: (x * y) / 2,
       pairs: [],
       cards: [],
-      currentFlipped: [],
       flipped: [],
     };
+    this.currentFlipped = [];
   }
   componentWillMount() {
     this.generateCardsArr();
@@ -63,14 +63,26 @@ class Main extends Component {
     }
   };
 
-  checkCards = (currentFlipped) => {};
+  checkCards = (currentFlipped) => {
+    if (currentFlipped.length > 1) {
+      if (currentFlipped[0].dataset.card === currentFlipped[1].dataset.card) {
+        console.log("JACKPOT!");
+        this.currentFlipped = [];
+      } else {
+        setTimeout(() => {
+          document.querySelectorAll(".flip-card").forEach((element) => {
+            element.children[0].classList.remove("flipped");
+            this.currentFlipped = [];
+          });
+        }, 700);
+      }
+    }
+  };
   handleCardFlip = (event) => {
     let card = event.currentTarget.children[0];
-    if (card.classList.contains("flipped")) {
-      card.classList.remove("flipped");
-    } else {
-      card.classList.add("flipped");
-    }
+    card.classList.add("flipped");
+    this.currentFlipped.push(event.currentTarget);
+    this.checkCards(this.currentFlipped);
   };
 
   render() {
