@@ -6,17 +6,45 @@ class Main extends Component {
     super(props);
     this.state = {
       gameSize: {
-        z: 3,
+        x: 3,
         y: 3,
+        containerX: 600,
+        containerY: 600,
+        spacing: 16,
       },
-      cardWidth: 200,
       nbrFlipped: 0,
       nbrPairs: 0,
+      cards: [],
       currentFlipped: [],
       flipped: [],
     };
   }
-  generateCards = (cardsNbr) => {};
+  componentWillMount() {
+    this.generateCards();
+  }
+  generateCards = () => {
+    for (let cardX = 0; cardX < this.state.gameSize.x; cardX++) {
+      for (let cardY = 0; cardY < this.state.gameSize.y; cardY++) {
+        this.state.cards.push(
+          <Card
+            key={cardX + ":" + cardY}
+            data={"hello"}
+            width={
+              this.state.gameSize.containerX / this.state.gameSize.x -
+              this.state.gameSize.spacing * 2
+            }
+            height={
+              this.state.gameSize.containerY / this.state.gameSize.y -
+              this.state.gameSize.spacing * 2
+            }
+            spacing={this.state.gameSize.spacing}
+            handleCardFlip={this.handleCardFlip}
+            isFlipped={this.state.isFlipped}
+          />
+        );
+      }
+    }
+  };
 
   checkCards = (currentFlipped) => {};
   handleCardFlip = (event) => {
@@ -33,14 +61,16 @@ class Main extends Component {
       <React.Fragment>
         <header>
           <h1 className="title">Memory</h1>
-          <div className="cards-container">
-            <Card
-              data={"hello"}
-              width={this.state.cardWidth}
-              height={this.state.cardWidth}
-              handleCardFlip={this.handleCardFlip}
-              isFlipped={this.state.isFlipped}
-            />
+          <div
+            style={{
+              width: this.state.gameSize.containerX + "px",
+              height: this.state.gameSize.containerY + "px",
+            }}
+            className="cards-container"
+          >
+            {this.state.cards.map((card) => {
+              return card;
+            })}
           </div>
         </header>
       </React.Fragment>
