@@ -1,25 +1,22 @@
 import React, { Component } from "react";
 
 class Card extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <div
+        data-card={this.props.data}
         className="flip-card"
         style={{
           width: this.props.width + "px",
           height: this.props.height + "px",
         }}
-        onClick={(e) => this.props.handleCardFlip()}
+        onClick={(e) => this.props.handleCardFlip(e)}
       >
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
+        <div className="flip-card-inner">
+          <div className="flip-card-front">
             <b className="question-mark">?</b>
           </div>
-          <div class="flip-card-back">
+          <div className="flip-card-back">
             <h1>John Doe</h1>
             <p>Architect & Engineer</p>
             <p>We love that guy</p>
