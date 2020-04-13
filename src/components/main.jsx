@@ -66,12 +66,22 @@ class Main extends Component {
   checkCards = (currentFlipped) => {
     if (currentFlipped.length > 1) {
       if (currentFlipped[0].dataset.card === currentFlipped[1].dataset.card) {
-        console.log("JACKPOT!");
         this.currentFlipped = [];
+        document
+          .querySelectorAll(
+            `.flip-card[data-card = '${currentFlipped[0].dataset.card}']`
+          )
+          .forEach((element) => {
+            element.classList.add("won");
+          });
       } else {
         setTimeout(() => {
           document.querySelectorAll(".flip-card").forEach((element) => {
-            element.children[0].classList.remove("flipped");
+            if (element.classList.contains("won")) {
+              return;
+            } else {
+              element.children[0].classList.remove("flipped");
+            }
             this.currentFlipped = [];
           });
         }, 700);
