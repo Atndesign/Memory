@@ -1,48 +1,65 @@
 import React, { Component } from "react";
 import Card from "./card";
 
+let x = 4;
+let y = 3;
+
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       gameSize: {
-        x: 3,
-        y: 3,
+        x: x,
+        y: y,
         containerX: 600,
         containerY: 600,
         spacing: 16,
       },
       nbrFlipped: 0,
-      nbrPairs: 0,
+      nbrPairs: (x * y) / 2,
+      pairs: [],
       cards: [],
       currentFlipped: [],
       flipped: [],
     };
   }
   componentWillMount() {
-    this.generateCards();
+    this.generateCardsArr();
   }
+
+  generateCardsArr = () => {
+    for (let i = 0; i < this.state.nbrPairs; i++) {
+      this.state.pairs.push(i, i);
+    }
+    this.shuffleArr();
+    this.generateCards();
+  };
+
+  shuffleArr = () => {
+    this.setState({
+      pairs: this.state.pairs.sort(() => 0.5 - Math.random()),
+    });
+  };
+
   generateCards = () => {
-    for (let cardX = 0; cardX < this.state.gameSize.x; cardX++) {
-      for (let cardY = 0; cardY < this.state.gameSize.y; cardY++) {
-        this.state.cards.push(
-          <Card
-            key={cardX + ":" + cardY}
-            data={"hello"}
-            width={
-              this.state.gameSize.containerX / this.state.gameSize.x -
-              this.state.gameSize.spacing * 2
-            }
-            height={
-              this.state.gameSize.containerY / this.state.gameSize.y -
-              this.state.gameSize.spacing * 2
-            }
-            spacing={this.state.gameSize.spacing}
-            handleCardFlip={this.handleCardFlip}
-            isFlipped={this.state.isFlipped}
-          />
-        );
-      }
+    for (let cardItem = 0; cardItem < this.state.pairs.length; cardItem++) {
+      this.state.cards.push(
+        <Card
+          data={this.state.pairs[cardItem]}
+          width={
+            this.state.gameSize.containerX / this.state.gameSize.x -
+            this.state.gameSize.spacing * 2
+          }
+          height={
+            this.state.gameSize.containerY / this.state.gameSize.y -
+            this.state.gameSize.spacing * 2
+          }
+          spacing={this.state.gameSize.spacing}
+          handleCardFlip={this.handleCardFlip}
+          isFlipped={this.state.isFlipped}
+          // img={}
+        />
+      );
     }
   };
 
