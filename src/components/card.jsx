@@ -9,6 +9,7 @@ class Card extends Component {
         style={{
           width: this.props.width + "px",
           height: this.props.height + "px",
+          margin: this.props.spacing + "px",
         }}
         onClick={(e) => this.props.handleCardFlip(e)}
       >
