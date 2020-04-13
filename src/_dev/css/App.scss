@@ -1,0 +1,32 @@
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import "./_partials/fonts";
+@import "./_partials/variables";
+@import "./_partials/responsive.scss";
+@import "./_partials/responsiveClasses.scss";
+
+//Default
+a,
+p,
+h1,
+h2,
+label {
+    font-family: $font-family-base;
+}
+
+.logo {
+    margin-bottom: (64 / 16) * $spacer;
+}
+
+body {
+    background-color: #091833;
+    padding: $spacer * 2;
+}
+
+//Components
+@import "./components/header.scss";
+@import "./components/homepage.scss";
+@import "./components/progress-bar.scss";
+@import "./components/thumbnail.scss";
+@import "./components/step1.scss";
+@import "./components/step2.scss";
+//Common

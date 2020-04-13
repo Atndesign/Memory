@@ -1,0 +1,46 @@
+.home__surtitle {
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    margin-bottom: $spacer;
+}
+
+.home__title {
+    color: $primary;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 48px;
+    margin-bottom: (75 / 16) * $spacer;
+}
+
+.home__desc {
+    text-align: center;
+    color: white;
+    margin-bottom: (32 / 16) * $spacer;
+}
+
+.home__btn {
+    color: white;
+    display: block;
+    margin: 0 auto;
+    background: none;
+    border: none;
+    background-color: $primary;
+    padding: 8px 40px;
+    transition: .3s ease-in;
+
+    &:hover {
+        background-color: darken($color: $primary, $amount: 20)
+    }
+}
+
+@include media-breakpoint-desktop {
+    .home__surtitle {
+        font-size: 48px;
+    }
+
+    .home__title {
+        font-size: 144px;
+    }
+}
