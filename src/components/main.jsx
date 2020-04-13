@@ -14,7 +14,6 @@ class Main extends Component {
       nbrPairs: 0,
       currentFlipped: [],
       flipped: [],
-      isFlipped: 0,
     };
   }
   generateCards = (cardsNbr) => {};
