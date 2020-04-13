@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Card from "./card";
 
-let x = 4;
-let y = 3;
+let x = 3;
+let y = 2;
 
 class Main extends Component {
   constructor(props) {
@@ -15,21 +15,33 @@ class Main extends Component {
         containerY: 600,
         spacing: 16,
       },
+      cards: 0,
       nbrFlipped: 0,
-      nbrPairs: (x * y) / 2,
-      cards: [],
       flipped: [],
     };
+    this.nbrPairs = 0;
+    this.cards = [];
     this.currentFlipped = [];
     this.pairs = [];
     this.found = [];
   }
   componentWillMount() {
-    this.generateCardsArr();
+    this.init();
   }
-
+  init = () => {
+    document.querySelectorAll(`.flip-card`).forEach((card) => {
+      card.classList.remove("won", "flipped");
+    });
+    this.cards = [];
+    this.currentFlipped = [];
+    this.pairs = [];
+    this.found = [];
+    setTimeout(() => {
+      this.generateCardsArr();
+    }, 100);
+  };
   generateCardsArr = () => {
-    for (let i = 0; i < this.state.nbrPairs; i++) {
+    for (let i = 0; i < this.nbrPairs; i++) {
       this.pairs.push(i, i);
     }
     this.shuffleArr();
@@ -37,12 +49,12 @@ class Main extends Component {
   };
 
   shuffleArr = () => {
-    this.pairs = this.pairs.sort(() => 1);
+    this.pairs = this.pairs.sort(() => 0.5 - Math.random());
   };
 
   generateCards = () => {
     for (let cardItem = 0; cardItem < this.pairs.length; cardItem++) {
-      this.state.cards.push(
+      this.cards.push(
         <Card
           data={this.pairs[cardItem]}
           width={
@@ -60,6 +72,9 @@ class Main extends Component {
         />
       );
     }
+    this.setState({
+      cards: this.cards,
+    });
   };
 
   checkCards = (currentFlipped) => {
@@ -89,6 +104,9 @@ class Main extends Component {
       this.checkWin();
     }
   };
+  checkWin = () => {
+    if (this.found.length === this.pairs.length / 2) console.log("WON!");
+  };
   handleCardFlip = (event) => {
     let card = event.currentTarget.children[0];
     if (event.currentTarget.classList.contains("won")) return;
@@ -96,14 +114,41 @@ class Main extends Component {
     this.currentFlipped.push(event.currentTarget);
     this.checkCards(this.currentFlipped);
   };
-  checkWin = () => {
-    if (this.found.length === this.pairs.length / 2) console.log("WON!");
+  handleNewSize = (e) => {
+    let height = parseInt(e.target.value.split("x")[0]);
+    let width = parseInt(e.target.value.split("x")[1]);
+    this.setState({
+      gameSize: {
+        x: width,
+        y: height,
+        containerX: 600,
+        containerY: 600,
+        spacing: 16,
+      },
+    });
+    this.nbrPairs = (width * height) / 2;
+    this.init();
   };
+
   render() {
     return (
       <React.Fragment>
-        <header>
-          <h1 className="title">Memory</h1>
+        <div className="container">
+          <header>
+            <h1 className="title">Memory</h1>
+            <select
+              className="form-control"
+              name=""
+              id=""
+              onChange={(e) => this.handleNewSize(e)}
+            >
+              <option value="2x2">2x2</option>
+              <option value="3x2">3x2</option>
+              <option value="4x2">2x4</option>
+              <option value="4x3">3x4</option>
+              <option value="4x4">4x4</option>
+            </select>
+          </header>
           <div
             style={{
               width: this.state.gameSize.containerX + "px",
@@ -111,11 +156,11 @@ class Main extends Component {
             }}
             className="cards-container"
           >
-            {this.state.cards.map((card) => {
+            {this.cards.map((card) => {
               return card;
             })}
           </div>
-        </header>
+        </div>
       </React.Fragment>
     );
   }
