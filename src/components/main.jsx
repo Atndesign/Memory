@@ -17,11 +17,12 @@ class Main extends Component {
       },
       nbrFlipped: 0,
       nbrPairs: (x * y) / 2,
-      pairs: [],
       cards: [],
       flipped: [],
     };
     this.currentFlipped = [];
+    this.pairs = [];
+    this.found = [];
   }
   componentWillMount() {
     this.generateCardsArr();
@@ -29,23 +30,21 @@ class Main extends Component {
 
   generateCardsArr = () => {
     for (let i = 0; i < this.state.nbrPairs; i++) {
-      this.state.pairs.push(i, i);
+      this.pairs.push(i, i);
     }
     this.shuffleArr();
     this.generateCards();
   };
 
   shuffleArr = () => {
-    this.setState({
-      pairs: this.state.pairs.sort(() => 0.5 - Math.random()),
-    });
+    this.pairs = this.pairs.sort(() => 1);
   };
 
   generateCards = () => {
-    for (let cardItem = 0; cardItem < this.state.pairs.length; cardItem++) {
+    for (let cardItem = 0; cardItem < this.pairs.length; cardItem++) {
       this.state.cards.push(
         <Card
-          data={this.state.pairs[cardItem]}
+          data={this.pairs[cardItem]}
           width={
             this.state.gameSize.containerX / this.state.gameSize.x -
             this.state.gameSize.spacing * 2
@@ -67,6 +66,7 @@ class Main extends Component {
     if (currentFlipped.length > 1) {
       if (currentFlipped[0].dataset.card === currentFlipped[1].dataset.card) {
         this.currentFlipped = [];
+        this.found.push(currentFlipped[0].dataset.card);
         document
           .querySelectorAll(
             `.flip-card[data-card = '${currentFlipped[0].dataset.card}']`
@@ -86,15 +86,19 @@ class Main extends Component {
           });
         }, 700);
       }
+      this.checkWin();
     }
   };
   handleCardFlip = (event) => {
     let card = event.currentTarget.children[0];
+    if (event.currentTarget.classList.contains("won")) return;
     card.classList.add("flipped");
     this.currentFlipped.push(event.currentTarget);
     this.checkCards(this.currentFlipped);
   };
-
+  checkWin = () => {
+    if (this.found.length === this.pairs.length / 2) console.log("WON!");
+  };
   render() {
     return (
       <React.Fragment>
